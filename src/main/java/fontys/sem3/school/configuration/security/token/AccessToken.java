@@ -13,4 +13,6 @@ public interface AccessToken {
 
     String getProfilepicture();
 
+    Double getBalance();
+
 }

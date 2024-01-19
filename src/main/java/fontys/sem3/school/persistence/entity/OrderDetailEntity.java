@@ -42,8 +42,6 @@ public class OrderDetailEntity {
     private double subtotal;
 
     @Column(name = "special_request")
-    @NotBlank
-    @Length(min = 2, max = 255)
     private String specialRequest;
 
 }

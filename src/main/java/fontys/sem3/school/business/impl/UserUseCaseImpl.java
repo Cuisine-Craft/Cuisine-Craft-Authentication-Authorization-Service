@@ -65,7 +65,7 @@ public class UserUseCaseImpl implements UserUseCase {
                 .profilePictureUrl(request.getProfilePictureUrl())
                 .birthdate(request.getBirthdate())
                 .role(request.getRole())
-                .balance(0L)
+                .balance((double) 0)
                 .build();
         return userRepository.save(newUser);
     }
@@ -114,8 +114,7 @@ public class UserUseCaseImpl implements UserUseCase {
         if (request.isUpdate()){
             User.setBalance(User.getBalance()+request.getAmount());
         } else{
-            userIdValidator.validateBalance(User.getBalance(),request.getAmount());
-            User.setBalance(request.getAmount()+User.getBalance());
+            User.setBalance(User.getBalance()-request.getAmount());
         }
         userRepository.save(User);
 

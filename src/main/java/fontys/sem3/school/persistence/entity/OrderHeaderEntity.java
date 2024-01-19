@@ -26,9 +26,5 @@ public class OrderHeaderEntity {
     @NotNull
     private Long userId;
 
-    public OrderHeaderEntity(double total, Long userId) {
-        this.total = total;
-        this.userId = userId;
-    }
 }
 

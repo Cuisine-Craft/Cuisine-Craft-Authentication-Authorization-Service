@@ -46,5 +46,5 @@ public class User {
     private LocalDate birthdate;
 
 
-    private Long balance;
+    private Double balance;
 }

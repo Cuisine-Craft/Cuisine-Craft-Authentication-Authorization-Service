@@ -17,13 +17,10 @@ public class UpdateUserBalanceRequest {
     @NotNull
     private Long id;
     @NotNull
-    private Long amount;
+    private Double amount;
     @NotNull
     private boolean update;
 
-    public Long getAmount() {
-        return amount != null ? amount : 0L;
-    }
 
 
 }

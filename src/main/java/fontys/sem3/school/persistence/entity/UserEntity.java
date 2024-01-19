@@ -17,6 +17,7 @@ import java.util.Date;
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserEntity {
 
     @Id
@@ -75,12 +76,11 @@ public class UserEntity {
 
     @NotNull
     @Min(0)
-    private Long balance;
+    private Double balance;
 
     @Column(name = "token",columnDefinition = "TEXT")
     private String token;
 
-    public UserEntity() {
-        this.balance = 0L; // Set the initial value to 0
-    }
+     // Set the initial value to 0
+    
 }

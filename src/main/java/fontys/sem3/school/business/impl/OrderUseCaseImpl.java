@@ -34,7 +34,17 @@ public class OrderUseCaseImpl implements OrderUseCase {
                 .orderheaders(orders)
                 .build();
     }
+    @Override
+    public GetAllOrderHeaderResponse getOrderHeadersbyCustomerid(long userId) {
 
+        List<OrderHeader> orders = orderHeaderRepository.findByUserId(userId)
+                .stream()
+                .map(OrderHeaderConverter::convert)
+                .toList();
+        return GetAllOrderHeaderResponse.builder()
+                .orderheaders(orders)
+                .build();
+    }
     @Override
     @Transactional
     public CreateOrderResponse createOrders(CreateOrderRequest request) {
@@ -53,7 +63,7 @@ public class OrderUseCaseImpl implements OrderUseCase {
                     return OrderDetailEntity.builder()
                             .food(food.get())
                             .amount(orderItem.getAmount())
-                            .subtotal(orderItem.getSubtotal())
+                            .subtotal(orderItem.getAmount()*food.get().getPrice())
                             .specialRequest(orderItem.getSpecialRequest())
                             .orderHeader(savedOrderHeader)
                             .build();

@@ -15,10 +15,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 //asd
 public class OrderDetail {
-    @NotNull
+
     private Long id;
 
-    @NotNull
     private Long orderheaderid;
 
     @NotNull

@@ -20,7 +20,7 @@ public class UserValidatorImpl implements UserValidator {
         }
     }
     @Override
-    public void validateBalance(Long UserBalance,Long Update) {
+    public void validateBalance(Double UserBalance,Double Update) {
         if (UserBalance-Update<0) {
             throw new InvalidUserException("USER_BALANCE_INSUFFICIENT");
         }
