@@ -38,7 +38,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(registry ->
                         registry.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                                 .requestMatchers(HttpMethod.POST,  "/login","/user","/user/login","/user/login/token","/chat","/message").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/user","/cuisine","/chat","/chat/seller","/message/chat" ,"ws").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/user","/cuisine","/order","/chat","/chat/seller","/message/chat" ,"ws").permitAll()
                                 .requestMatchers(SWAGGER_UI_RESOURCES).permitAll()
                                 .anyRequest().authenticated()
                 )

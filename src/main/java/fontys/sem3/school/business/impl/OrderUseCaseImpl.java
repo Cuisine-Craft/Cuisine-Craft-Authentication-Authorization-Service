@@ -12,6 +12,8 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +24,7 @@ public class OrderUseCaseImpl implements OrderUseCase {
     private final OrderDetailRepository orderDetailRepository;
     private final OrderHeaderRepository orderHeaderRepository;
     private final FoodRepository foodRepository;
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy, HH:mm:ss");
 
     @Override
     public GetAllOrderHeaderResponse getAllOrderHeaders() {
@@ -48,9 +51,11 @@ public class OrderUseCaseImpl implements OrderUseCase {
     @Override
     @Transactional
     public CreateOrderResponse createOrders(CreateOrderRequest request) {
+        String formattedTimestamp = LocalDateTime.now().format(formatter);
         OrderHeaderEntity orderHeaderEntity = OrderHeaderEntity.builder()
                 .userId(request.getUserId())
                 .total(request.getTotal())
+                .timestamp(formattedTimestamp)
                 .build();
         OrderHeaderEntity savedOrderHeader = orderHeaderRepository.save(orderHeaderEntity);
         long orderHeaderId = savedOrderHeader.getId();
@@ -59,7 +64,8 @@ public class OrderUseCaseImpl implements OrderUseCase {
         List<OrderDetailEntity> orderDetailEntities = request.getOrderItems().stream()
                 .map(orderItem -> {
                     Optional<FoodEntity> food = foodRepository.findById((orderItem.getFoodid()));
-
+                    food.get().setTotalsales(food.get().getTotalsales()+orderItem.getAmount());
+                    foodRepository.save(food.get());
                     return OrderDetailEntity.builder()
                             .food(food.get())
                             .amount(orderItem.getAmount())

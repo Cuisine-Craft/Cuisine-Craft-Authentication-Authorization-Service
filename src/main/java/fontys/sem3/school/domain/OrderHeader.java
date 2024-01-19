@@ -23,6 +23,9 @@ public class OrderHeader {
     private double total;
 
     @NotNull
+    private String timestamp;
+
+    @NotNull
     private Long userid;
 
 }

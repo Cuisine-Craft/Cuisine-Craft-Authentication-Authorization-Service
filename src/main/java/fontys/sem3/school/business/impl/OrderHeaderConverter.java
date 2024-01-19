@@ -11,6 +11,7 @@ final class OrderHeaderConverter {
         return OrderHeader.builder()
                 .id(orderHeaderEntity.getId())
                 .total(orderHeaderEntity.getTotal())
+                .timestamp(orderHeaderEntity.getTimestamp())
                 .userid(orderHeaderEntity.getUserId())  // Assuming you have a similar converter for UserEntity to User// Assuming you have a similar converter for OrderDetailEntity to OrderDetail
                 .build();
     }

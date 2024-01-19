@@ -22,6 +22,10 @@ public class OrderHeaderEntity {
     @Min(0)
     private double total;
 
+    @NotNull
+    @Column(name = "timestamp")
+    private String timestamp;
+
     @Column(name = "user_id")
     @NotNull
     private Long userId;

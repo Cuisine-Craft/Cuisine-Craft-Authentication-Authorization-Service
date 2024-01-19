@@ -21,7 +21,7 @@ public class OrderDetail {
     private Long orderheaderid;
 
     @NotNull
-    private Long foodid;
+    private Food food;
 
     @NotNull
     private int amount;

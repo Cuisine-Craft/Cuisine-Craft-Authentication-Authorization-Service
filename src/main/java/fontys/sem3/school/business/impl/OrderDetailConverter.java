@@ -11,7 +11,7 @@ final class OrderDetailConverter {
         return OrderDetail.builder()
                 .id(orderDetailEntity.getId())
                 .orderheaderid(orderDetailEntity.getOrderHeader().getId())
-                .foodid(orderDetailEntity.getFood().getId())  // Assuming you have a similar converter for FoodEntity to Food
+                .food(FoodConverter.convert(orderDetailEntity.getFood()))  // Assuming you have a similar converter for FoodEntity to Food
                 .amount(orderDetailEntity.getAmount())
                 .subtotal(orderDetailEntity.getSubtotal())
                 .specialRequest(orderDetailEntity.getSpecialRequest())
