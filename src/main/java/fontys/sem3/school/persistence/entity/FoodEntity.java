@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
 
 @Entity
@@ -42,8 +41,7 @@ public class FoodEntity {
     @Column(name = "description")
     private String description;
 
-    @NotBlank
-    @NotNull
+
     @Length(min = 2 ,max = 255)
     @Column(name = "pictureUrl")
     private String pictureUrl;

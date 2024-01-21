@@ -16,7 +16,7 @@ public class CreateOrderRequest {
     @NotNull
     private Long userId;
     @NotNull
-    private Long total;
+    private Double total;
     @NotNull
     private List<OrderDetailRequest> orderItems;
 }

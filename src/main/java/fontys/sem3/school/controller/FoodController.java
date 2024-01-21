@@ -26,7 +26,12 @@ public class FoodController {
 
         return ResponseEntity.ok(foodUseCase.getFoods());
     }
+    @GetMapping("/top5mostsoldfood")
+    @RolesAllowed({"Admin"})
+    public ResponseEntity<GetAllFoodsResponse> getTop5mostsoldfood() {
 
+        return ResponseEntity.ok(foodUseCase.getFoodsmostsoldfood());
+    }
     @GetMapping("/{foodId}")
     @RolesAllowed({"Customer","Seller","Admin"})
     public ResponseEntity<Food> getFood(@PathVariable(value = "foodId") final long foodId) {

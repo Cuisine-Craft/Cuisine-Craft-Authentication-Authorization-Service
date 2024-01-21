@@ -28,11 +28,10 @@ public class ChatUseCaseImpl implements ChatUseCase {
 
     @Override
     public CreateChatResponse createChat(CreateChatRequest request) {
-
-        Optional<ChatEntity> existingChat = chatAlreadyExists(request.getCustomerid(),request.getSellerid());
+        // Check if the chat already exists
+        Optional<ChatEntity> existingChat = chatAlreadyExists(request.getCustomerid(), request.getSellerid());
         if (existingChat.isPresent()) {
-
-            // Chat already exists, return the existing chat ID
+            // Chat already exists, return the existing chat details
             return CreateChatResponse.builder()
                     .Id(existingChat.get().getId())
                     .Sellerid(existingChat.get().getSellerid().getId())
@@ -42,14 +41,17 @@ public class ChatUseCaseImpl implements ChatUseCase {
                     .build();
         }
 
-        ChatEntity savedChat = saveNewChat(request);
+        // If you want to handle the case where chat doesn't exist differently, you can add that logic here
 
+        // Create a new chat
+        ChatEntity savedChat = saveNewChat(request);
         return CreateChatResponse.builder()
                 .Id(savedChat.getId())
                 .Sellerid(savedChat.getSellerid().getId())
                 .Customerid(savedChat.getCustomerid().getId())
                 .build();
     }
+
 
     @Override
     public GetChatsResponse getChatsbySellerid(long sellerid) {

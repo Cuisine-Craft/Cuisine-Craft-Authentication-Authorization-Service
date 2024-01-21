@@ -1,6 +1,7 @@
 package fontys.sem3.school.business;
 
 import fontys.sem3.school.domain.*;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
@@ -13,5 +14,9 @@ public interface FoodUseCase {
     Optional<Food> getFood(long UserId);
     GetAllFoodsResponse getFoodsbyCuisineId(long cuisineId);
 
+    GetAllFoodsResponse getFoodsmostsoldfood();
+
     void updateFood(UpdateFoodRequest request);
+
+
 }

@@ -60,6 +60,10 @@ public class CuisineUseCaseImpl implements CuisineUseCase {
         return cuisineRepository.save(newCuisine);
     }
     @Override
+    public List<Object[]> getCuisineTotalSales() {
+        return cuisineRepository.aggregateCuisineTotalSales();
+    }
+    @Override
     public void updateCuisine(UpdateCuisineRequest request) {
         Optional<CuisineEntity> CuisineOptional = cuisineRepository.findById(request.getId());
         if (CuisineOptional.isEmpty()) {

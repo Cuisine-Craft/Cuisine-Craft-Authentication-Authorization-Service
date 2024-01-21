@@ -9,4 +9,6 @@ public interface OrderUseCase {
     GetAllOrderHeaderResponse getOrderHeadersbyCustomerid(long UserId);
     CreateOrderResponse createOrders(CreateOrderRequest request);
     GetAllOrderDetailResponse getOrderDetailsbyOrderHeaderid(long UserId);
+
+    double getTotalSalesfromlastquarter();
 }

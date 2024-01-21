@@ -113,7 +113,7 @@ public class DatabaseDataInitializer {
                         .code(generateFoodCode("Erwtensoep"))
                         .description("Traditional Dutch pea soup, thick and hearty")
                         .pictureUrl("https://firebasestorage.googleapis.com/v0/b/gourmet-eats.appspot.com/o/images%2Ffood%2Ferwtensoep.jpg?alt=media&token=62498a87-06c9-4f4e-b5ca-63a1139327fc")
-                        .totalsales(0L)
+                        .totalsales(5L)
                         .price(7)
                         .status(true)
                         .cuisine(cuisines.get(0))
@@ -124,7 +124,7 @@ public class DatabaseDataInitializer {
                         .code(generateFoodCode("Bitterballen"))
                         .description("Deep-fried Dutch meat-based snack")
                         .pictureUrl("https://firebasestorage.googleapis.com/v0/b/gourmet-eats.appspot.com/o/images%2Ffood%2Fbitterballen.jpg?alt=media&token=2211ff4f-8d67-40e4-bd58-3d88b3543f4d")
-                        .totalsales(0L)
+                        .totalsales(3L)
                         .status(true)
                         .price(4)
                         .cuisine(cuisines.get(0)) // Replace with the actual CuisineEntity for Dutch cuisine
@@ -135,7 +135,7 @@ public class DatabaseDataInitializer {
                         .code(generateFoodCode("Poffertjes"))
                         .description("Mini Dutch pancakes")
                         .pictureUrl("https://firebasestorage.googleapis.com/v0/b/gourmet-eats.appspot.com/o/images%2Ffood%2Fpoffertjes.jpg?alt=media&token=3f682e6b-36ab-4dac-bbc4-626ee1c9c69c")
-                        .totalsales(0L)
+                        .totalsales(5L)
                         .status(true)
                         .price(5)
                         .cuisine(cuisines.get(0)) // Replace with the actual CuisineEntity for Dutch cuisine
@@ -148,7 +148,7 @@ public class DatabaseDataInitializer {
                         .code(generateFoodCode("Kebab"))
                         .description("Grilled meat on skewers")
                         .pictureUrl("https://firebasestorage.googleapis.com/v0/b/gourmet-eats.appspot.com/o/images%2Ffood%2Fkebab.jpg?alt=media&token=5c1a7faa-2cf9-4a07-b0f8-0d8b030802ad")
-                        .totalsales(0L)
+                        .totalsales(8L)
                         .status(true)
                         .price(7.5)
                         .cuisine(cuisines.get(1)) // Replace with the actual CuisineEntity for Turkish cuisine
@@ -159,7 +159,7 @@ public class DatabaseDataInitializer {
                         .code(generateFoodCode("Baklava"))
                         .description("Sweet pastry with layers of filo and nuts")
                         .pictureUrl("https://firebasestorage.googleapis.com/v0/b/gourmet-eats.appspot.com/o/images%2Ffood%2Fbaklava.jpg?alt=media&token=2f7bd941-bad5-49f7-a75d-68c0017c1eca")
-                        .totalsales(0L)
+                        .totalsales(3L)
                         .status(true)
                         .price(5)
                         .cuisine(cuisines.get(1)) // Replace with the actual CuisineEntity for Turkish cuisine
@@ -170,7 +170,7 @@ public class DatabaseDataInitializer {
                         .code(generateFoodCode("Manti"))
                         .description("Turkish dumplings")
                         .pictureUrl("https://firebasestorage.googleapis.com/v0/b/gourmet-eats.appspot.com/o/images%2Ffood%2Fmanti.jpg?alt=media&token=4fbc820e-8c77-4496-8b80-db2b3e2f75be")
-                        .totalsales(0L)
+                        .totalsales(2L)
                         .status(true)
                         .price(8)
                         .cuisine(cuisines.get(1)) // Replace with the actual CuisineEntity for Turkish cuisine
@@ -183,7 +183,7 @@ public class DatabaseDataInitializer {
                         .code(generateFoodCode("Nasi Goreng"))
                         .description("Indonesian fried rice")
                         .pictureUrl("https://firebasestorage.googleapis.com/v0/b/gourmet-eats.appspot.com/o/images%2Ffood%2Fnasigoreng.jpg?alt=media&token=72189fae-bc56-4063-aac1-1f8f46a4fa93")
-                        .totalsales(0L)
+                        .totalsales(9L)
                         .status(true)
                         .price(8.5)
                         .cuisine(cuisines.get(2)) // Replace with the actual CuisineEntity for Indonesian cuisine
@@ -194,7 +194,7 @@ public class DatabaseDataInitializer {
                         .code(generateFoodCode("Satay"))
                         .description("Skewered and grilled meat")
                         .pictureUrl("https://firebasestorage.googleapis.com/v0/b/gourmet-eats.appspot.com/o/images%2Ffood%2Fsatay.jpg?alt=media&token=9bd4c13a-6e81-4610-b136-ce5c7664b100")
-                        .totalsales(0L)
+                        .totalsales(10L)
                         .status(true)
                         .price(6.5)
                         .cuisine(cuisines.get(2)) // Replace with the actual CuisineEntity for Indonesian cuisine
@@ -205,7 +205,7 @@ public class DatabaseDataInitializer {
                         .code(generateFoodCode("Rendang"))
                         .description("Spicy beef stew")
                         .pictureUrl("https://firebasestorage.googleapis.com/v0/b/gourmet-eats.appspot.com/o/images%2Ffood%2Frendang.jpg?alt=media&token=8ced9bad-b914-4d07-8276-ee91fc387f76")
-                        .totalsales(0L)
+                        .totalsales(7L)
                         .status(true)
                         .price(9)
                         .cuisine(cuisines.get(2)) // Replace with the actual CuisineEntity for Indonesian cuisine
@@ -218,7 +218,7 @@ public class DatabaseDataInitializer {
                         .code(generateFoodCode("Dim Sum"))
                         .description("Assorted Chinese appetizers")
                         .pictureUrl("https://firebasestorage.googleapis.com/v0/b/gourmet-eats.appspot.com/o/images%2Ffood%2Fdimsum.jpg?alt=media&token=8b37dedd-edd5-4272-a261-9566037c83b6")
-                        .totalsales(0L)
+                        .totalsales(4L)
                         .status(true)
                         .price(6)
                         .cuisine(cuisines.get(3)) // Replace with the actual CuisineEntity for Chinese cuisine
@@ -229,7 +229,7 @@ public class DatabaseDataInitializer {
                         .code(generateFoodCode("Peking Duck"))
                         .description("Roast duck dish from Beijing")
                         .pictureUrl("https://firebasestorage.googleapis.com/v0/b/gourmet-eats.appspot.com/o/images%2Ffood%2Fpekingduck.jpg?alt=media&token=e0243ea5-4ea2-40e2-9586-b72341c097fd")
-                        .totalsales(0L)
+                        .totalsales(7L)
                         .status(true)
                         .price(10)
                         .cuisine(cuisines.get(3)) // Replace with the actual CuisineEntity for Chinese cuisine
@@ -240,7 +240,7 @@ public class DatabaseDataInitializer {
                         .code(generateFoodCode("Hot Pot"))
                         .description("Chinese stew served at the table")
                         .pictureUrl("https://firebasestorage.googleapis.com/v0/b/gourmet-eats.appspot.com/o/images%2Ffood%2Fhotpot.jpg?alt=media&token=0720d3a1-b7b4-4056-b8d6-3b73e5cf8213")
-                        .totalsales(0L)
+                        .totalsales(6L)
                         .status(true)
                         .price(15)
                         .cuisine(cuisines.get(3)) // Replace with the actual CuisineEntity for Chinese cuisine
@@ -253,7 +253,7 @@ public class DatabaseDataInitializer {
                         .code(generateFoodCode("Feijoada"))
                         .description("Brazilian black bean stew with pork")
                         .pictureUrl("https://firebasestorage.googleapis.com/v0/b/gourmet-eats.appspot.com/o/images%2Ffood%2Ffeijoada.jpg?alt=media&token=7e7b88aa-8049-4974-865a-bbc242b6a727")
-                        .totalsales(0L)
+                        .totalsales(2L)
                         .status(true)
                         .price(8.5)
                         .cuisine(cuisines.get(4)) // Replace with the actual CuisineEntity for Brazilian cuisine
@@ -264,7 +264,7 @@ public class DatabaseDataInitializer {
                         .code(generateFoodCode("Pão de Queijo"))
                         .description("Brazilian cheese bread")
                         .pictureUrl("https://firebasestorage.googleapis.com/v0/b/gourmet-eats.appspot.com/o/images%2Ffood%2Fp%C3%A3odequeijo.jpg?alt=media&token=d1bd93b4-8064-442e-b576-3bd032cafcba")
-                        .totalsales(0L)
+                        .totalsales(1L)
                         .status(true)
                         .price(4)
                         .cuisine(cuisines.get(4)) // Replace with the actual CuisineEntity for Brazilian cuisine
@@ -275,7 +275,7 @@ public class DatabaseDataInitializer {
                         .code(generateFoodCode("Brigadeiro"))
                         .description("Brazilian chocolate truffle")
                         .pictureUrl("https://firebasestorage.googleapis.com/v0/b/gourmet-eats.appspot.com/o/images%2Ffood%2Fbrigadeiro.jpg?alt=media&token=7c420b1d-63a7-45a7-a0c7-0151fc0f78b3")
-                        .totalsales(0L)
+                        .totalsales(3L)
                         .status(true)
                         .price(3)
                         .cuisine(cuisines.get(4)) // Replace with the actual CuisineEntity for Brazilian cuisine

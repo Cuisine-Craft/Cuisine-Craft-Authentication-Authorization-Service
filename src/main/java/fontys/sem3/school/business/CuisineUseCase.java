@@ -2,6 +2,7 @@ package fontys.sem3.school.business;
 
 import fontys.sem3.school.domain.*;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface CuisineUseCase {
@@ -14,4 +15,6 @@ public interface CuisineUseCase {
     Optional<Cuisine> getCuisine(long cuisineId);
 
     void updateCuisine(UpdateCuisineRequest request);
+
+    List<Object[]> getCuisineTotalSales();
 }

@@ -5,7 +5,6 @@ import fontys.sem3.school.business.UserValidator;
 import fontys.sem3.school.business.exception.InvalidUserException;
 import fontys.sem3.school.business.exception.UserNotFoundException;
 import fontys.sem3.school.domain.*;
-import fontys.sem3.school.persistence.ChatRepository;
 import fontys.sem3.school.persistence.CuisineRepository;
 import fontys.sem3.school.persistence.FoodRepository;
 import fontys.sem3.school.persistence.UserRepository;
@@ -13,7 +12,8 @@ import fontys.sem3.school.persistence.entity.CuisineEntity;
 import fontys.sem3.school.persistence.entity.FoodEntity;
 import fontys.sem3.school.persistence.entity.UserEntity;
 import lombok.AllArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -67,6 +67,7 @@ CuisineEntity cuisine=getCuisine(request.getCuisineid());
                 .description(request.getDescription())
                 .pictureUrl(request.getPictureUrl())
                 .totalsales(0L)
+                .status(true)
                 .price(request.getPrice())
                 .cuisine(cuisine)
                 .build();
@@ -91,6 +92,17 @@ CuisineEntity cuisine=getCuisine(request.getCuisineid());
     }
 
     @Override
+    public GetAllFoodsResponse getFoodsmostsoldfood() {
+
+        List<Food> Foods = foodRepository.findTop5MostSoldFoods().stream()
+                .map(FoodConverter::convert)
+                .toList();
+
+        return GetAllFoodsResponse.builder()
+                .Foods(Foods)
+                .build();
+    }
+    @Override
     public void updateFood(UpdateFoodRequest request) {
         Optional<FoodEntity> FoodOptional = foodRepository.findById(request.getId());
 
@@ -105,7 +117,6 @@ CuisineEntity cuisine=getCuisine(request.getCuisineid());
 
         }
     }
-
     private String generateFoodCode(String foodName) {
         // Take the first three letters of the item name
         String prefix = foodName.substring(0, Math.min(foodName.length(), 3)).toUpperCase();

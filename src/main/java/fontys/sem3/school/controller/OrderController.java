@@ -26,7 +26,12 @@ public class OrderController {
 
         return orderUseCase.getAllOrderHeaders();
     }
+    @GetMapping("/totalsalesthisquarter")
+    @RolesAllowed({"Admin"})
+    public double getTotalSalesfromlastquarter() {
 
+        return orderUseCase.getTotalSalesfromlastquarter();
+    }
     @GetMapping("/header/{userId}")
     @RolesAllowed({"Customer"})
     public GetAllOrderHeaderResponse getOrderHeadersByCustomerId(@PathVariable long userId) {

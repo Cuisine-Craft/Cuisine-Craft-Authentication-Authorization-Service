@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 @CrossOrigin(origins = "*")
 @RestController
@@ -39,6 +40,11 @@ public class CuisinesController {
     public ResponseEntity<Void> deleteCuisine(@PathVariable int cuisineId) {
         cuisineUseCase.deleteCuisine(cuisineId);
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/mostpopularcuisine")
+    @RolesAllowed({"Admin"})
+    public List<Object[]> getCuisineTotalSales() {
+        return cuisineUseCase.getCuisineTotalSales();
     }
     @PostMapping()
     @RolesAllowed({"Admin"})
