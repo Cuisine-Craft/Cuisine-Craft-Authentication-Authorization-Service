@@ -20,4 +20,5 @@ import java.util.List;
 @Builder
 public class GetAllOrderDetailResponse {
     private List<OrderDetail> orderdetails;
+    private List<String> timestamps;
 }

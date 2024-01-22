@@ -48,4 +48,9 @@ public class OrderController {
         return orderUseCase.getOrderDetailsbyOrderHeaderid(orderHeaderId);
     }
 
+    @GetMapping("/details/seller/{sellerid}")
+    public List<Object[]> getOrderDetailsBySellerId(@PathVariable long sellerid) {
+        return orderUseCase.getOrderDetailsbySellerid(sellerid);
+    }
+
 }

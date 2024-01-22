@@ -30,5 +30,6 @@ public class OrderDetail {
     private double subtotal;
 
 
-     private String specialRequest;
+    private String specialRequest;
+
 }

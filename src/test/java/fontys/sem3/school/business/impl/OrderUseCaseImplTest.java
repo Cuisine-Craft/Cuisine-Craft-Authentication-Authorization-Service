@@ -15,6 +15,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -134,7 +136,7 @@ class OrderUseCaseImplTest {
 
 
     @Test
-    OrderHeaderEntity createTestOrderHeaderEntity() {
+    void createTestOrderHeaderEntity() {
         // Create a test order header entity with sample data
         OrderHeaderEntity orderHeaderEntity = OrderHeaderEntity.builder()
                 .id(1L)
@@ -148,16 +150,20 @@ class OrderUseCaseImplTest {
         assertEquals(123L, orderHeaderEntity.getUserId());
         assertEquals(150.0, orderHeaderEntity.getTotal());
         assertEquals("01/20/2024, 12:34:56", orderHeaderEntity.getTimestamp());
-        return orderHeaderEntity;
+
     }
 
     @Test
-    List<OrderDetailEntity> createTestOrderDetailEntities() {
+    void createTestOrderDetailEntities() {
         // Create test order detail entities with sample data
         FoodEntity foodEntity1 = createTestFoodEntity(1L, "Food 1", 10.0);
         FoodEntity foodEntity2 = createTestFoodEntity(2L, "Food 2", 15.0);
-
-        OrderHeaderEntity orderHeaderEntity = createTestOrderHeaderEntity();
+        OrderHeaderEntity orderHeaderEntity = OrderHeaderEntity.builder()
+                .id(1L)
+                .userId(123L)
+                .total(150.0)
+                .timestamp("01/20/2024, 12:34:56")  // Replace with an actual timestamp
+                .build();
 
         OrderDetailEntity orderDetailEntity1 = OrderDetailEntity.builder()
                 .food(foodEntity1)
@@ -174,13 +180,62 @@ class OrderUseCaseImplTest {
                 .specialRequest("Special Request 2")
                 .orderHeader(orderHeaderEntity)
                 .build();
-
-        List<OrderDetailEntity> orderDetailEntities = createTestOrderDetailEntities();
+        List<OrderDetailEntity> orderDetailEntities= List.of(orderDetailEntity1, orderDetailEntity2);
 
         assertNotNull(orderDetailEntities);
         assertEquals(2, orderDetailEntities.size());
         assertEquals(orderDetailEntity1, orderDetailEntities.get(0));
         assertEquals(orderDetailEntity2, orderDetailEntities.get(1));
-        return orderDetailEntities;
+    }
+
+
+    @Test
+    void testGetOrderDetailsBySellerId() {
+        // Arrange
+        long sellerId = 1L;
+        OrderDetailRepository mockOrderDetailRepository = mock(OrderDetailRepository.class);
+        OrderUseCaseImpl orderUseCase = new OrderUseCaseImpl(
+                mockOrderDetailRepository,
+                orderHeaderRepository,
+                foodRepository
+        );
+
+        // Mock the repository response
+        List<Object[]> orderDetailsWithTimestamp = Arrays.asList(
+                new Object[]{1L, "Product A", 10.0, Timestamp.valueOf("2023-01-01 12:00:00")},
+                new Object[]{2L, "Product B", 15.0, Timestamp.valueOf("2023-01-02 14:30:00")}
+        );
+        when(mockOrderDetailRepository.findOrderDetailWithTimestampByOrderHeaderId(sellerId))
+                .thenReturn(orderDetailsWithTimestamp);
+
+        // Act
+        List<Object[]> result = orderUseCase.getOrderDetailsbySellerid(sellerId);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(orderDetailsWithTimestamp.size(), result.size());
+        // Add more assertions based on your specific logic
+    }
+
+    @Test
+    void testGetTotalSalesFromLastQuarter() {
+        // Arrange
+        OrderHeaderRepository mockOrderHeaderRepository = mock(OrderHeaderRepository.class);
+        OrderUseCaseImpl orderUseCase = new OrderUseCaseImpl(
+                orderDetailRepository,
+                mockOrderHeaderRepository,
+                foodRepository
+        );
+
+        // Mock the repository response
+        Double totalSales = 1500.0;
+        when(mockOrderHeaderRepository.calculateTotalSalesForLastQuarter(anyString(), anyString()))
+                .thenReturn(totalSales);
+
+        // Act
+        double result = orderUseCase.getTotalSalesfromlastquarter();
+
+        // Assert
+        assertEquals(totalSales, result, 0.01); // Adjust delta based on your requirements
     }
 }

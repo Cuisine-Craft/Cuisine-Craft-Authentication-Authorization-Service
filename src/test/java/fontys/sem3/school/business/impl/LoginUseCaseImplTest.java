@@ -1,12 +1,11 @@
 package fontys.sem3.school.business.impl;
 
 import fontys.sem3.school.business.exception.InvalidCredentialsException;
+import fontys.sem3.school.business.exception.InvalidTokenException;
 import fontys.sem3.school.configuration.security.token.AccessTokenEncoder;
 import fontys.sem3.school.configuration.security.token.impl.AccessTokenImpl;
-import fontys.sem3.school.domain.CreateUserRequest;
+import fontys.sem3.school.domain.*;
 import fontys.sem3.school.domain.Enum.Role;
-import fontys.sem3.school.domain.LoginRequest;
-import fontys.sem3.school.domain.LoginResponse;
 import fontys.sem3.school.persistence.UserRepository;
 import fontys.sem3.school.persistence.entity.UserEntity;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +16,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -130,5 +130,43 @@ class LoginUseCaseImplTest {
         verify(userRepository, times(1)).findByUsername(loginRequest.getUsername());
         verify(passwordEncoder, times(1)).matches(loginRequest.getPassword(), user.getPasswordhash());
         verifyNoInteractions(accessTokenEncoder);
+    }
+
+    @Test
+    void refreshTokenShouldThrowInvalidTokenExceptionWhenTokenNotExists() {
+        // Arrange
+        RefreshTokenRequest request = new RefreshTokenRequest("nonexistent-token");
+        when(userRepository.findByToken(request.getToken())).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(InvalidTokenException.class, () -> loginUseCase.refreshToken(request));
+
+        // Verify
+        verify(userRepository, times(1)).findByToken(request.getToken());
+        verifyNoMoreInteractions(userRepository, accessTokenEncoder);
+    }
+
+    @Test
+    void refreshTokenShouldReturnNewAccessTokenWhenOldTokenExists() {
+        // Arrange
+        RefreshTokenRequest request = new RefreshTokenRequest("existing-token");
+        UserEntity userEntity = new UserEntity(); // create a user entity as needed
+        when(userRepository.findByToken(request.getToken())).thenReturn(Optional.of(userEntity));
+
+        String newAccessToken = "new-access-token";
+        when(accessTokenEncoder.encode(any(AccessTokenImpl.class))).thenReturn(newAccessToken);
+
+        // Act
+        RefreshTokenResponse response = loginUseCase.refreshToken(request);
+
+        // Assert
+        assertNotNull(response);
+        assertEquals(newAccessToken, response.getToken());
+
+        // Verify
+        verify(userRepository, times(1)).findByToken(request.getToken());
+        verify(userRepository, times(1)).saveToken(newAccessToken, userEntity.getUsername());
+        verify(accessTokenEncoder, times(1)).encode(any(AccessTokenImpl.class));
+        verifyNoMoreInteractions(userRepository, accessTokenEncoder);
     }
 }

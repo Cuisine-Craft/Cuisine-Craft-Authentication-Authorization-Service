@@ -127,6 +127,11 @@ public class OrderUseCaseImpl implements OrderUseCase {
                 .orderdetails(orderdetails).build();
     }
     @Override
+    public  List<Object[]> getOrderDetailsbySellerid(long userId) {
+
+        return  orderDetailRepository.findOrderDetailWithTimestampByOrderHeaderId(userId);
+    }
+    @Override
     public double getTotalSalesfromlastquarter() {
         // Implement logic to fetch orders by user ID
         LocalDateTime endDate = LocalDateTime.now();  // Assuming today is the end date

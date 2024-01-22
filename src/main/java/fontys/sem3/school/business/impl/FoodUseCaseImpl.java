@@ -11,6 +11,7 @@ import fontys.sem3.school.persistence.UserRepository;
 import fontys.sem3.school.persistence.entity.CuisineEntity;
 import fontys.sem3.school.persistence.entity.FoodEntity;
 import fontys.sem3.school.persistence.entity.UserEntity;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -30,7 +31,7 @@ public class FoodUseCaseImpl implements FoodUseCase {
     private final UserRepository userRepository;
 
 
-
+    @Transactional
     @Override
     public void softdeleteFood(long foodid) {
 
@@ -134,6 +135,7 @@ CuisineEntity cuisine=getCuisine(request.getCuisineid());
         Food.setName(request.getName());
         Food.setDescription(request.getDescription());
         Food.setCode(generateFoodCode(request.getName()));
+        Food.setPrice(request.getPrice());
         foodRepository.save(Food);
     }
     private UserEntity getUser(long userId) {

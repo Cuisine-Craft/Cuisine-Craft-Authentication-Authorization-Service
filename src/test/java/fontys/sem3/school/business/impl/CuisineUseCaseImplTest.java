@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import fontys.sem3.school.business.CuisineIdValidator;
+import fontys.sem3.school.business.exception.IdAlreadyExistsException;
 import fontys.sem3.school.domain.*;
 import fontys.sem3.school.persistence.CuisineRepository;
 import fontys.sem3.school.persistence.entity.CuisineEntity;
@@ -36,25 +37,26 @@ class CuisineUseCaseImplTest {
         cuisineUseCase = new CuisineUseCaseImpl(mockcuisineRepository,cuisineIdValidator);
     }
 
-//    @Test
-//    void testCreateCuisineSuccess() {
-//        // Arrange
-//        CreateCuisineRequest request = new CreateCuisineRequest( "Some Cuisine");
-//        CuisineEntity savedCuisineEntity = CuisineEntity.builder()
-//                .id(1L)
-//                .name("Some Cuisine")
-//                .build();
-//
-//        when(mockcuisineRepository.existsById(1L)).thenReturn(false);
-//        when(mockcuisineRepository.save(any(CuisineEntity.class))).thenReturn(savedCuisineEntity);
-//
-//        // Act
-//        CreateCuisineResponse response = cuisineUseCase.createCuisine(request);
-//
-//        // Assert
-//        assertNotNull(response);
-//        assertEquals(1L, response.getId());
-//    }
+    @Test
+    void testCreateCuisineSuccess() {
+        // Arrange
+        CreateCuisineRequest request = new CreateCuisineRequest( "Some Cuisine","Some url");
+        CuisineEntity savedCuisineEntity = CuisineEntity.builder()
+                .id(1L)
+                .name("Some Cuisine")
+                .build();
+
+        when(mockcuisineRepository.existsById(1L)).thenReturn(false);
+        when(mockcuisineRepository.save(any(CuisineEntity.class))).thenReturn(savedCuisineEntity);
+
+        // Act
+        CreateCuisineResponse response = cuisineUseCase.createCuisine(request);
+
+        // Assert
+        assertNotNull(response);
+        assertEquals(1L, response.getId());
+        verify(mockcuisineRepository, times(1)).save(any(CuisineEntity.class));
+    }
     @Test
     void deleteCuisine() {
         // Arrange
@@ -108,7 +110,7 @@ class CuisineUseCaseImplTest {
     @Test
     void testUpdateCuisineSuccess() {
         // Arrange
-        Long existingId = 1L;
+        long existingId = 1L;
         UpdateCuisineRequest request = new UpdateCuisineRequest(existingId, "Updated Cuisine");
 
         CuisineEntity existingCuisineEntity = CuisineEntity.builder()
@@ -124,8 +126,30 @@ class CuisineUseCaseImplTest {
         // Assert
         verify(cuisineIdValidator, times(1)).validateId(existingId);
         assertEquals("Updated Cuisine", existingCuisineEntity.getName());
+
+        // Verify that save is called with the correct CuisineEntity
+        verify(mockcuisineRepository, times(1)).save(any(CuisineEntity.class));
     }
 
+    @Test
+    void testCreateCuisineIdAlreadyExists() {
+        // Arrange
+        CreateCuisineRequest request = new CreateCuisineRequest("Some Cuisine", "Some url");
+
+        // Mock the repository to return null when save is called
+        when(mockcuisineRepository.save(any(CuisineEntity.class))).thenReturn(null);
+
+        // Act and Assert
+        assertThrows(
+                RuntimeException.class, // or a more specific exception based on your actual code
+                () -> cuisineUseCase.createCuisine(request),
+                "Error while saving cuisine"
+        );
+
+        // Optionally, you can verify other interactions or assertions based on your specific requirements
+        verify(mockcuisineRepository, times(1)).save(any(CuisineEntity.class));
+        verifyNoMoreInteractions(mockcuisineRepository);
+    }
 
 
 

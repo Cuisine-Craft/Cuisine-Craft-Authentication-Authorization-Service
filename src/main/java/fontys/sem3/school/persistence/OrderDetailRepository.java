@@ -13,7 +13,8 @@ import java.util.List;
 public interface OrderDetailRepository extends JpaRepository<OrderDetailEntity, Long> {
 
     List<OrderDetailEntity> findByOrderHeader_Id(Long OrderHeaderid);
+    @Query("SELECT od, oh.timestamp FROM OrderDetailEntity od JOIN od.orderHeader oh WHERE oh.id = :orderHeaderId")
+    List<Object[]> findOrderDetailWithTimestampByOrderHeaderId(@Param("orderHeaderId") Long orderHeaderId);
 
-    @Query("SELECT SUM(od.subtotal) FROM OrderDetailEntity od JOIN od.food f JOIN f.seller s WHERE s.id = :sellerId")
-    Double findTotalSubtotalBySellerId(@Param("sellerId") Long sellerId);
+
 }
