@@ -62,7 +62,7 @@ public class OrderUseCaseImpl implements OrderUseCase {
                     .build();
             OrderHeaderEntity savedOrderHeader = orderHeaderRepository.save(orderHeaderEntity);
 
-            if (savedOrderHeader != null) {
+            if (savedOrderHeader.getId() > 0) {
                 long orderHeaderId = savedOrderHeader.getId();
 
                 // Create OrderDetailEntity instances and associate them with the OrderHeader
