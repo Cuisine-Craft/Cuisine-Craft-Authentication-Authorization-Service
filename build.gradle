@@ -68,6 +68,6 @@ sonar {
         property "sonar.projectName", "GourmetEats"
         property("sonar.host.url", "http://localhost:9000")
         property "sonar.qualitygate.wait", false
-        property "sonar.sources", "src/main/java/fontys/sem3/school/business"
+        property "sonar.sources", "src/main/java/cuisinecraft/authservice/business"
     }
 }
