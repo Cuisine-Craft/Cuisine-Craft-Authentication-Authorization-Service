@@ -8,7 +8,7 @@ plugins {
 }
 //apply plugin: "org.sonarqube"
 
-group = 'fontys.sem3'
+group = 'cuisinecraft'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
@@ -64,8 +64,6 @@ jacocoTestReport {
 }
 sonar {
     properties {
-        property "sonar.projectKey", "I530399_gourmeteats_AYup9kRVmd1MmNnQVKyC"
-        property "sonar.projectName", "GourmetEats"
         property("sonar.host.url", "http://localhost:9000")
         property "sonar.qualitygate.wait", false
         property "sonar.sources", "src/main/java/cuisinecraft/authservice/business"
