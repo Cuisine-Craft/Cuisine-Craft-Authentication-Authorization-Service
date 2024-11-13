@@ -114,8 +114,8 @@ jobs:
 
       - name: Debug Environment Variables
         run: |
-          echo "SONAR_HOST_URL=$SONAR_HOST_URL"
-          echo "SONAR_TOKEN=$SONAR_TOKEN"
+          echo "SONAR_HOST_URL=${{ secrets.SONAR_HOST_URL }}"
+          echo "SONAR_TOKEN=${{ secrets.SONAR_TOKEN }}"
 
       - name: Run SonarQube Scan
         env:
