@@ -76,4 +76,14 @@ jobs:
       - name: Grant execute permissions to gradlew
         run: chmod +x ./gradlew  # Ensures the gradlew script is executable
 
+      - name: SonarQube Scan
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        run: |
+          ./gradlew sonarqube \
+            -Dsonar.projectKey=your_project_key \
+            -Dsonar.host.url=$SONAR_HOST_URL \
+            -Dsonar.login=$SONAR_TOKEN  # Ensures the gradlew script is executable
+
       # Add your scanning steps here (e.g., static analysis, security checks, etc.)
