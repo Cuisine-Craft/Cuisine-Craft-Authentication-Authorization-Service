@@ -112,12 +112,15 @@ jobs:
       - name: Grant execute permissions to gradlew
         run: chmod +x ./gradlew  # Ensure gradlew is executable
 
+      - name: Debug Environment Variables
+        run: |
+          echo "SONAR_HOST_URL=$SONAR_HOST_URL"
+          echo "SONAR_TOKEN=$SONAR_TOKEN"
+
       - name: Run SonarQube Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: |
-          ./gradlew sonar \
-            -Dsonar.host.url=$SONAR_HOST_URL \
-            -Dsonar.login=$SONAR_TOKEN
+        run: ./gradlew sonar
+
 
