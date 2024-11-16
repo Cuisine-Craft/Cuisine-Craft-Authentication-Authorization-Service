@@ -137,49 +137,52 @@
 #          ./gradlew build jacocoTestReport sonar --info
 
 
-name: Build
+name: Scan
 
 on:
   push:
     branches:
-      - features
+      - features  # Adjust this to the branches you want to trigger the workflow on
 
 jobs:
-  build:
-    name: Build and analyze
+  scan:
+    name: SonarQube Scan
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for better relevancy of analysis
+          fetch-depth: 0  # Ensures full repo history is cloned
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: 17
-          distribution: 'zulu' # Alternative distribution options are available.
-      - name: Cache SonarQube packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
+          distribution: 'zulu' # Options include zulu, adopt, etc.
+
       - name: Cache Gradle packages
         uses: actions/cache@v4
         with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-          restore-keys: ${{ runner.os }}-gradle
+          path: |
+            ~/.gradle/caches
+            build
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle
+
       - name: Grant execute permissions for gradlew
         run: chmod +x gradlew
+
       - name: SonarQube Scan
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          sonar_host_url: ${{ secrets.SONAR_HOST_URL }}  # Add SONAR_HOST_URL in GitHub Secrets
+          sonar_token: ${{ secrets.SONAR_TOKEN }}        # Add SONAR_TOKEN in GitHub Secrets
         run: |
-          ./gradlew sonar \
-            -Dsonar.projectKey=your_project_key \
-            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+          ./gradlew sonar -Pcoverage \
+          -Dsonar.host.url=$sonar_host_url \
+          -Dsonar.token=$sonar_token \
+          --info
+
 #  scan:
 #    needs: test
 #    runs-on: ubuntu-latest
