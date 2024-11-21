@@ -1,0 +1,42 @@
+# Ignore Maven or Gradle build directories
+/target/
+/build/*
+
+# Include only the libs folder in build
+!build/libs/
+
+# Ignore local IDE configurations
+.idea/
+/.vscode/
+
+# Ignore logs and other system files
+*.log
+*.swp
+.DS_Store
+
+# Ignore test directories or files (if you don't need them in the container)
+tests/
+
+# Ignore Dockerfile itself (if you're copying everything over)
+Dockerfile
+
+# Ignore configuration files for version control (if not necessary for the build)
+.git/
+.gitignore
+
+# Ignore Node.js/Frontend build files (if applicable)
+node_modules/
+dist/
+
+# Ignore environment variables file(s) to keep secrets safe
+.env
+.env.local
+.env.*  # Covers any env files with different suffixes
+
+# Ignore any OS-specific files
+Thumbs.db
+
+# Ignore any other sensitive files you don't want in the container
+*.pem
+*.key
+*.crt
