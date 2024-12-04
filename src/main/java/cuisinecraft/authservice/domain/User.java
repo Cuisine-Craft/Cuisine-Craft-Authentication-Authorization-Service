@@ -33,14 +33,7 @@ public class User {
     private String address;
 
 
-    private String gender;
-
-
-    private String profilePictureUrl;
     private Role role;
 
-    private LocalDate birthdate;
 
-
-    private Double balance;
 }

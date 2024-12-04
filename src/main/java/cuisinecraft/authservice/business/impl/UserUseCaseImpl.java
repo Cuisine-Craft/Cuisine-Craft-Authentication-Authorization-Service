@@ -63,11 +63,7 @@ public class UserUseCaseImpl implements UserUseCase {
                 .phonenumber(request.getPhonenumber())
                 .email(request.getEmail())
                 .address(request.getAddress())
-                .gender(request.getGender())
-                .profilePictureUrl(request.getProfilePictureUrl())
-                .birthdate(request.getBirthdate())
                 .role(request.getRole())
-                .balance((double) 0)
                 .build();
         return userRepository.save(newUser);
     }
@@ -97,29 +93,7 @@ public class UserUseCaseImpl implements UserUseCase {
 
         userRepository.save(User);
     }
-    @Override
-    public void updateUserBalance(UpdateUserBalanceRequest request) {
-        Optional<UserEntity> UserOptional = userRepository.findById(request.getId());
 
 
-        userIdValidator.validateId(request.getId());
-        if (UserOptional.isPresent()) {
-            UserEntity User = UserOptional.get();
-            updatebalance(request, User);
-        } else {
-            throw new InvalidUserException("USER_ID_INVALID");
-
-        }
-
-    }
-    private void updatebalance(UpdateUserBalanceRequest request, UserEntity User) {
-        if (request.isUpdate()){
-            User.setBalance(User.getBalance()+request.getAmount());
-        } else{
-            User.setBalance(User.getBalance()-request.getAmount());
-        }
-        userRepository.save(User);
-
-    }
 
 }

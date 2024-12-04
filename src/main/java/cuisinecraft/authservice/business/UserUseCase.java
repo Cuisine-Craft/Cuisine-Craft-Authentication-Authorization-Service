@@ -15,5 +15,4 @@ public interface UserUseCase {
 
     void updateUser(UpdateUserRequest request);
 
-    void updateUserBalance(UpdateUserBalanceRequest request);
 }

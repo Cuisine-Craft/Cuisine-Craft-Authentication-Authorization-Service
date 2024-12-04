@@ -55,31 +55,15 @@ public class UserEntity {
     @Column(name = "address") // Specify the column type and length
     private String address;
 
-    @NotBlank
-    @Length(max = 30)
-    @Column(name = "gender")
-    private String gender;
-
-    @Length(max = 255)
-    @Column(name = "profilePictureUrl")
-    private String profilePictureUrl;
 
     @NotNull
     @Column(name = "role")
     private Role role;
-
-    @NotNull
-    @Past(message = "Birthdate must be in the past")
-    @Column(name = "birthdate")
-    private LocalDate birthdate;
-
-    @NotNull
-    @Min(0)
-    private Double balance;
+       
 
     @Column(name = "token",columnDefinition = "TEXT")
     private String token;
 
-     // Set the initial value to 0
+
     
 }

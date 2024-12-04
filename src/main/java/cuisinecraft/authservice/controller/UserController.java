@@ -50,11 +50,5 @@ public class UserController {
         userUseCase.updateUser(request);
         return ResponseEntity.noContent().build();
     }
-    @PutMapping("/balance/{id}")
-    public ResponseEntity<Void> updateBalance(@PathVariable("id") long id,
-                                              @RequestBody @Valid UpdateUserBalanceRequest request) {
-        request.setId(id);
-        userUseCase.updateUserBalance(request);
-        return ResponseEntity.noContent().build();
-    }
+
 }

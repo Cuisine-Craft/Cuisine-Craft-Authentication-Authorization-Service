@@ -47,16 +47,4 @@ public class CreateUserRequest {
     @NotNull
     private Role role;
 
-    @NotNull
-    private String profilePictureUrl;
-
-    @NotBlank
-    @Length(max = 30)
-    private String gender;
-
-    @NotNull
-    @Past(message = "Birthdate must be in the past")
-    private LocalDate birthdate;
-
-
 }

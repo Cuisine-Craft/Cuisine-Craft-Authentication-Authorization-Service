@@ -36,11 +36,7 @@ public class DatabaseDataInitializer {
                         .phonenumber("+312345678")
                         .email("john.doe@example.com")
                         .address("123 Main St")
-                        .gender("Male")
-                        .profilePictureUrl("https://firebasestorage.googleapis.com/v0/b/gourmet-eats.appspot.com/o/images%2Fuser%2Fjohndoe?alt=media&token=8615b91d-e8b4-49cf-92aa-a8b3a49cd798")
                         .role(Role.User)
-                        .birthdate(LocalDate.of(1990, 1, 1))
-                        .balance((double) 0)
                         .build(),
                 UserEntity.builder()
                         .name("johndoe1")
@@ -49,11 +45,7 @@ public class DatabaseDataInitializer {
                         .phonenumber("+3123456781")
                         .email("john.doe1@example.com")
                         .address("1231 Main St")
-                        .gender("Male")
-                        .profilePictureUrl("https://firebasestorage.googleapis.com/v0/b/gourmet-eats.appspot.com/o/images%2Fuser%2Fjohndoe1.jpg?alt=media&token=75c89139-3982-4781-a557-0ff42452fa28")
                         .role(Role.User)
-                        .birthdate(LocalDate.of(1995, 1, 1))
-                        .balance((double) 0)
                         .build(),
                 UserEntity.builder()
                         .name("arielclarence")
@@ -62,11 +54,7 @@ public class DatabaseDataInitializer {
                         .phonenumber("+310684318401")
                         .email("ariel.clarence@example.com")
                         .address("grave")
-                        .gender("Male")
-                        .profilePictureUrl("https://firebasestorage.googleapis.com/v0/b/gourmet-eats.appspot.com/o/images%2Fuser%2Fjohndoe?alt=media&token=8615b91d-e8b4-49cf-92aa-a8b3a49cd798")
                         .role(Role.User)
-                        .birthdate(LocalDate.of(2002, 9, 19))
-                        .balance((double) 0)
                         .build(),
                 UserEntity.builder()
                         .name("admin")
@@ -75,11 +63,7 @@ public class DatabaseDataInitializer {
                         .phonenumber("+310684318401")
                         .email("admin@example.com")
                         .address("grave")
-                        .gender("Female")
-                        .profilePictureUrl("https://firebasestorage.googleapis.com/v0/b/gourmet-eats.appspot.com/o/images%2Fuser%2Fadmin.png?alt=media&token=dba9b8e9-6ce0-4289-a922-f455583bfc90")
                         .role(Role.Admin)
-                        .birthdate(LocalDate.of(2002, 9, 19))
-                        .balance((double) 0)
                         .build()
         );
 
