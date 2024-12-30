@@ -97,32 +97,27 @@ on:
       - main
 
 jobs:
-  build:
-    name: Build and analyze
+  sonar:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Set executable permissions for gradlew
-        run: chmod +x ./gradlew  # Make gradlew executable
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v3
         with:
-          java-version: 17
-          distribution: 'zulu' # Alternative distribution options are available.
-      - name: Cache SonarQube packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-      - name: Cache Gradle packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-          restore-keys: ${{ runner.os }}-gradle
-      - name: Build and analyze
-        run: ./gradlew build sonar --info
+          java-version: '17'
+
+      - name: Run SonarQube container
+        run: |
+          # Pull the SonarQube Docker image
+          docker pull sonarqube:lts
+          # Start SonarQube container
+          docker run -d -p 9000:9000 --name sonarqube sonarqube:lts
+          # Wait for SonarQube to be ready
+          sleep 30
+
+      - name: Run SonarQube analysis
+        run: ./gradlew sonarqube -Dsonar.host.url=http://localhost:9000 -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
