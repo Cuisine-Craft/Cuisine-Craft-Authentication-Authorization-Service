@@ -94,7 +94,7 @@ name: Build
 on:
   push:
     branches:
-      - features
+      - main
 
 
 jobs:
