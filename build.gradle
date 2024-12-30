@@ -68,6 +68,7 @@ sonar {
         property "sonar.projectName", "Cuisine-Craft-Authentication-Authorization-Service"
         property "sonar.qualitygate.wait", false
         property "sonar.sources", "src/main/java/cuisinecraft/authservice/business"
+        property "sonar.login", "sqp_b68e8713cd9148cd921473ee77b082670488b8a7"
     }
 }
 
