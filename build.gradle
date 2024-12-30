@@ -69,7 +69,7 @@ sonar {
         property "sonar.qualitygate.wait", false
         property "sonar.sources", "src/main/java/cuisinecraft/authservice/business"
         property "sonar.host.url", "http://localhost:9000"
-        property "sonar.login", "sqp_b68e8713cd9148cd921473ee77b082670488b8a7"
+        property "sonar.token", "sqp_b68e8713cd9148cd921473ee77b082670488b8a7"
     }
 }
 
