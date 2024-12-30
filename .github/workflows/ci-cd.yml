@@ -107,14 +107,12 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '17'
+          distribution: 'adoptopenjdk'  # Specify the JDK distribution (e.g., AdoptOpenJDK, Zulu)
 
       - name: Run SonarQube container
         run: |
-          # Pull the SonarQube Docker image
           docker pull sonarqube:lts
-          # Start SonarQube container
           docker run -d -p 9000:9000 --name sonarqube sonarqube:lts
-          # Wait for SonarQube to be ready
           sleep 30
 
       - name: Run SonarQube analysis
