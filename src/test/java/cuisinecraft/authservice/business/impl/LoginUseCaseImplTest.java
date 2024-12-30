@@ -49,8 +49,6 @@ class LoginUseCaseImplTest {
                 .phonenumber("1234567890")
                 .address("123 Main St")
                 .role(Role.User)
-                .gender("Male")
-                .birthdate(LocalDate.now())
                 .build();
         UserEntity user = UserEntity.builder()
                 .id(1L) // Mocked or actual ID returned by the database
@@ -60,8 +58,6 @@ class LoginUseCaseImplTest {
                 .phonenumber(userRequest.getPhonenumber())
                 .address(userRequest.getAddress())
                 .role(userRequest.getRole())
-                .gender(userRequest.getGender())
-                .birthdate(userRequest.getBirthdate())
                 .build();
         when(userRepository.findByUsername(loginRequest.getUsername())).thenReturn(user);
         when(passwordEncoder.matches(loginRequest.getPassword(), user.getPasswordhash())).thenReturn(true);
@@ -106,8 +102,6 @@ class LoginUseCaseImplTest {
                 .phonenumber("1234567890")
                 .address("123 Main St")
                 .role(Role.User)
-                .gender("Male")
-                .birthdate(LocalDate.now())
                 .build();
         UserEntity user = UserEntity.builder()
                 .id(1L) // Mocked or actual ID returned by the database
@@ -117,8 +111,6 @@ class LoginUseCaseImplTest {
                 .phonenumber(userRequest.getPhonenumber())
                 .address(userRequest.getAddress())
                 .role(userRequest.getRole())
-                .gender(userRequest.getGender())
-                .birthdate(userRequest.getBirthdate())
                 .build();
         when(userRepository.findByUsername(loginRequest.getUsername())).thenReturn(user);
         when(passwordEncoder.matches(loginRequest.getPassword(), user.getPasswordhash())).thenReturn(false);

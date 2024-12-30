@@ -1,56 +1,15 @@
-#version: '3'
-#services:
-#  # MySQL container
-#  gourmet-eats-db:
-#    image: mysql:latest
-#    environment:
-#      MYSQL_ROOT_PASSWORD: arieldbpass
-#      MYSQL_DATABASE: gourmet_eats
-#    ports:
-#      - "3390:3306"  # Map container port 3306 to host port 3390 (adjust as needed)
-#
-#  # Spring Boot container
-#  gourmet-eats-be:
-#    build:
-#      context: ./GourmetEatsREST
-#      dockerfile: Dockerfile
-#    depends_on:
-#      - gourmet-eats-db
-#    ports:
-#      - "8080:8080"  # Map container port 8080 to host port 8080 (adjust as needed)
-#    environment:
-#      SPRING_DATASOURCE_URL: jdbc:mysql://gourmet-eats-db:3306/gourmet_eats
-#      SPRING_DATASOURCE_USERNAME: root
-#      SPRING_DATASOURCE_PASSWORD: arieldbpass
-
 version: '3.9'  # Updated to the latest Compose file version for more features
-services:
-  # MySQL container
-  cuisinecraft-db:
-    image: mysql:latest
-    container_name: cuisinecraft-db
-    environment:
-      MYSQL_ROOT_PASSWORD: arieldbpass
-      MYSQL_DATABASE: ccauth
-    ports:
-      - "3390:3306"  # Map container port 3306 to host port 3390
 
+services:
   # CuisineCraft Authentication Service
   cuisinecraft-auth:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: cuisinecraft-auth
-    depends_on:
-      - cuisinecraft-db
     ports:
       - "8080:8080"  # Map container port 8080 to host port 8080
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://cuisinecraft-db:3306/ccauth
+      SPRING_DATASOURCE_URL: jdbc:mysql://34.77.156.124:3306/ccauth  # Cloud SQL Public IP
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: arieldbpass
-
-
-
-
-  

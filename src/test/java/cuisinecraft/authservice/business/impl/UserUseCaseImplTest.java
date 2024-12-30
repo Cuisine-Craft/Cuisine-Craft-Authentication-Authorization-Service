@@ -50,8 +50,6 @@ class UserUseCaseImplTest {
                 .phonenumber("1234567890")
                 .address("123 Main St")
                 .role(Role.User)
-                .gender("Male")
-                .birthdate(LocalDate.now())
                 .build();
 
         UserEntity savedUserEntity = UserEntity.builder()
@@ -63,8 +61,6 @@ class UserUseCaseImplTest {
                 .email(userRequest.getEmail())
                 .address(userRequest.getAddress())
                 .role(userRequest.getRole())
-                .gender(userRequest.getGender())
-                .birthdate(userRequest.getBirthdate())
                 .build();
 
         when(mockUserRepository.save(any(UserEntity.class))).thenReturn(savedUserEntity);
@@ -100,8 +96,7 @@ class UserUseCaseImplTest {
                 .email("act@gmail.com")
                 .address("123 Main St")
                 .role(Role.User)  // Assuming you have an Enum called Role with USER as one of its values
-                .gender("Male")
-                .birthdate(LocalDate.now())  // Replace this with the actual birthdate
+                // Replace this with the actual birthdate
                 .build();
         UserEntity savedUserEntity =   UserEntity.builder()
                 .name(userRequest.getName())
@@ -111,8 +106,6 @@ class UserUseCaseImplTest {
                 .email(userRequest.getEmail())
                 .address(userRequest.getAddress())
                 .role(userRequest.getRole())
-                .gender(userRequest.getGender())
-                .birthdate(userRequest.getBirthdate())
                 .build();
 
         when(mockUserRepository.findAll()).thenReturn(List.of(savedUserEntity));
@@ -136,9 +129,7 @@ class UserUseCaseImplTest {
                 .phonenumber("1234567890")
                 .email("act@gmail.com")
                 .address("123 Main St")
-                .role(Role.User)  // Assuming you have an Enum called Role with USER as one of its values
-                .gender("Male")
-                .birthdate(LocalDate.now())  // Replace this with the actual birthdate
+                .role(Role.User)  // Assuming you have an Enum called Role with USER as one of its values// Replace this with the actual birthdate
                 .build();
         UserEntity savedUserEntity =   UserEntity.builder()
                 .name(userRequest.getName())
@@ -148,8 +139,6 @@ class UserUseCaseImplTest {
                 .email(userRequest.getEmail())
                 .address(userRequest.getAddress())
                 .role(userRequest.getRole())
-                .gender(userRequest.getGender())
-                .birthdate(userRequest.getBirthdate())
                 .build();
 
         when(mockUserRepository.findById(userId)).thenReturn(Optional.ofNullable(savedUserEntity));
@@ -178,8 +167,6 @@ class UserUseCaseImplTest {
                 .email("act@gmail.com")
                 .address("123 Main St")
                 .role(Role.User)
-                .gender("Male")
-                .birthdate(LocalDate.now())
                 .build();
 
         when(mockUserRepository.findById(existingUserId)).thenReturn(Optional.ofNullable(existingUserEntity));
@@ -204,45 +191,9 @@ class UserUseCaseImplTest {
         assertThrows(InvalidUserException.class, () -> userUseCase.updateUser(request));
     }
 
-    @Test
-    void testUpdateUserBalance() {
-        // Arrange
-        long existingUserId = 1L;
 
-        UpdateUserBalanceRequest request = new UpdateUserBalanceRequest(1L, 100.0, true);
-        UserEntity existingUserEntity = UserEntity.builder()
-                .id(existingUserId)
-                .name("John Doe")
-                .username("johndoe")
-                .passwordhash("password123")
-                .phonenumber("1234567890")
-                .email("act@gmail.com")
-                .address("123 Main St")
-                .role(Role.User)
-                .gender("Male")
-                .birthdate(LocalDate.now())
-                .balance(0.0) // Set an initial balance
-                .build();
-        request.setAmount(100.0);
-        when(mockUserRepository.findById(request.getId())).thenReturn(Optional.of(existingUserEntity));
 
-// Act
-        userUseCase.updateUserBalance(request);
 
-// Assert
-        assertEquals(100.0, existingUserEntity.getBalance());
-    }
-
-    @Test
-    void testUpdateUserBalanceNonExistentUser() {
-        // Arrange
-        UpdateUserBalanceRequest request = new UpdateUserBalanceRequest(/* provide necessary parameters */);
-
-        when(mockUserRepository.findById(request.getId())).thenReturn(Optional.empty());
-
-        // Act and Assert
-        assertThrows(InvalidUserException.class, () -> userUseCase.updateUserBalance(request));
-    }
 
     // Add more tests as needed for other methods and edge cases
 }

@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cuisinecraft-auth
+  labels:
+    app: cuisinecraft-auth
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: cuisinecraft-auth
+  template:
+    metadata:
+      labels:
+        app: cuisinecraft-auth
+    spec:
+      containers:
+        - name: cuisinecraft-auth
+          image: gcr.io/cuisinecraft/cuisine-craft-auth-cuisinecraft-auth:latest
+          ports:
+            - containerPort: 8080
+          env:
+            # Database Connection Details
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:mysql://34.77.156.124:3306/ccauth"  # Using Public IP
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "root"
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: "arieldbpass"
+            # If using Google Cloud, specify the service account credentials file path here
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /etc/gcp/key.json
+          volumeMounts:
+            - name: gcp-sa-volume
+              mountPath: /etc/gcp
+              readOnly: true
+      volumes:
+        - name: gcp-sa-volume
+          secret:
+            secretName: gcp-sa-secret  # The Kubernetes secret containing the service account key
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cuisinecraft-auth
+spec:
+  selector:
+    app: cuisinecraft-auth
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: LoadBalancer
