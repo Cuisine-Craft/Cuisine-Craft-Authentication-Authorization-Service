@@ -62,21 +62,29 @@ jobs:
 
   scan:
     needs: test
-    runs-on: [self-hosted, Windows, X64]
+    runs-on: [ self-hosted, Windows, X64 ]
 
     steps:
-      - uses: actions/checkout@v3
-
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Ensures complete history for analysis (important for SonarQube analysis)
+          submodules: false
+      # Step 2: Set up JDK 17
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
-          distribution: 'adopt'
+          distribution: 'zulu'  # Changed to 'zulu' for better compatibility (you can revert to 'adopt' if preferred)
 
+      # Step 3: Grant execute permissions to gradlew (Unix-specific, might not be needed on Windows, optional)
       - name: Grant execute permissions to gradlew
+        if: runner.os != 'Windows'  # Only run this on non-Windows runners
         run: chmod +x ./gradlew  # Ensures the gradlew script is executable
 
-      - name: SonarQube Scan
+      # Step 4: Run SonarQube scan
+      - name: Run SonarQube Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
@@ -84,7 +92,8 @@ jobs:
           ./gradlew sonar \
             -Dsonar.projectKey=Cuisine-Craft_Cuisine-Craft-Authentication-Authorization-Service_8f212176-f64e-4011-9f3e-0bf70756d09d \
             -Dsonar.host.url=$SONAR_HOST_URL \
-            -Dsonar.login=$SONAR_TOKEN  # Ensures the gradlew script is executable
+            -Dsonar.login=$SONAR_TOKEN
+
 
 
 #name: Build
