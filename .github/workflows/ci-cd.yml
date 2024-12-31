@@ -129,12 +129,10 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
 
-      - name: Build and SonarQube analysis
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      - name: Build and analyze
         run: |
-          ./gradlew.bat build sonarqube ^
+          ./gradlew.bat build sonar ^
             -Dsonar.projectKey=Cuisine-Craft_Cuisine-Craft-Authentication-Authorization-Service_8f212176-f64e-4011-9f3e-0bf70756d09d ^
-            -Dsonar.host.url=$SONAR_HOST_URL ^
-            -Dsonar.login=$SONAR_TOKEN
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} ^
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+      
