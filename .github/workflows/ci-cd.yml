@@ -100,7 +100,7 @@ on:
 
 jobs:
   build:
-    name: Build and analyze
+    name: Build and Analyze
     runs-on: [self-hosted, Windows, X64]
 
     steps:
@@ -129,9 +129,13 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
 
-      - name: Build and analyze
+      - name: Build and Analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-          run: ./gradlew build sonar --info
-      
+        run: |
+          ./gradlew.bat build sonar ^
+          -Dsonar.projectKey=Cuisine-Craft_Cuisine-Craft-Authentication-Authorization-Service_8f212176-f64e-4011-9f3e-0bf70756d09d ^
+          -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} ^
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
