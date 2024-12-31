@@ -99,7 +99,7 @@ on:
 jobs:
   build:
     name: Build, Analyze and Cache
-    runs-on: ubuntu-latest  # Using GitHub-hosted runner for testing
+    runs-on: [self-hosted, Windows, X64]  # Use the appropriate labels for your self-hosted runner
 
     steps:
       - name: Checkout repository
