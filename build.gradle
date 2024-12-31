@@ -2,7 +2,7 @@ plugins {
     id 'org.springframework.boot' version '3.1.0'
     id 'io.spring.dependency-management' version '1.1.0'
     id 'java'
-    id "org.sonarqube" version "5.1.0.4882"
+    id "org.sonarqube" version "6.0.1.5171"
     id 'jacoco'
 //
 }
@@ -67,8 +67,8 @@ sonarqube {
         property "sonar.projectKey", "Cuisine-Craft_Cuisine-Craft-Authentication-Authorization-Service"
         property "sonar.projectName", "Cuisine-Craft-Authentication-Authorization-Service"
         property "sonar.host.url", "https://sonarcloud.io"
-        property "sonar.login", "99d4ae327277d58668478cbc465e0f8433434ea2"  // Replace with your SonarCloud token
         property "sonar.sources", "src/main/java/cuisinecraft/authservice"
+        property "sonar.qualitygate.wait", false
     }
 }
 

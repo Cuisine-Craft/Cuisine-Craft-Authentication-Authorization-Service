@@ -140,9 +140,6 @@ jobs:
       # Run Gradle build and analyze using SonarCloud
       - name: Build and Analyze
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: |
-          ./gradlew sonar -Dsonar.projectKey="Cuisine-Craft_Cuisine-Craft-Authentication-Authorization-Service" \
-                           -Dsonar.host.url="${{ secrets.SONAR_HOST_URL }}" \
-                           -Dsonar.login="${{ secrets.SONAR_TOKEN }}"
+        run: ./gradlew build sonar --info
