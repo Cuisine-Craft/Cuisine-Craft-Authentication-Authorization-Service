@@ -62,7 +62,7 @@
 #
 #  scan:
 #    needs: test
-#    runs-on: ubuntu-latest
+#    runs-on: [self-hosted, Windows, X64]
 #
 #    steps:
 #      - uses: actions/checkout@v3
@@ -87,9 +87,7 @@
 #            -Dsonar.login=$SONAR_TOKEN  # Ensures the gradlew script is executable
 #
 #
-
-
-name: Build and Analyze
+name: Build
 
 on:
   push:
@@ -98,43 +96,32 @@ on:
 
 jobs:
   build:
-    name: Build, Analyze and Cache
-    runs-on: [self-hosted, Windows, X64]  # Use the appropriate labels for your self-hosted runner
+    name: Build and analyze
+    runs-on: [self-hosted, Windows, X64]
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-
-      # Set executable permissions for gradlew (if on Linux/macOS)
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: Set executable permissions for gradlew
-        if: runner.os != 'Windows'  # Skip on Windows
-        run: chmod +x ./gradlew
-
-      # Set up JDK 17
+        run: chmod +x ./gradlew  # Make gradlew executable
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: 17
-          distribution: 'zulu'
-
-      # Cache SonarQube dependencies
+          distribution: 'zulu' # Alternative distribution options are available.
       - name: Cache SonarQube packages
         uses: actions/cache@v4
         with:
           path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar-${{ hashFiles('**/*.java') }}
-          restore-keys: ${{ runner.os }}-sonar-
-
-      # Cache Gradle dependencies
-      - name: Cache Gradle dependencies
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache Gradle packages
         uses: actions/cache@v4
         with:
           path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: ${{ runner.os }}-gradle-
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: ${{ runner.os }}-gradle
+      - name: Build and analyze
+        run: ./gradlew build sonar --info
 
-      # Build and analyze the project
-      - name: Build and analyze with Gradle
-        run: ./gradlew build sonarqube -Dsonar.login=${{ secrets.SONAR_TOKEN }} --info
