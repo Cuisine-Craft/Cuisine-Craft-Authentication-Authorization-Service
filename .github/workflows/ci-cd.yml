@@ -143,6 +143,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         run: |
-          ./gradlew sonarqube -Dsonar.projectKey="Cuisine-Craft_Cuisine-Craft-Authentication-Authorization-Service" \
-                               -Dsonar.host.url="${{ secrets.SONAR_HOST_URL }}" \
-                               -Dsonar.login="${{ secrets.SONAR_TOKEN }}"
+          ./gradlew sonar -Dsonar.projectKey="Cuisine-Craft_Cuisine-Craft-Authentication-Authorization-Service" \
+                           -Dsonar.host.url="${{ secrets.SONAR_HOST_URL }}" \
+                           -Dsonar.login="${{ secrets.SONAR_TOKEN }}"
+
