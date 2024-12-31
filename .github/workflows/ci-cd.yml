@@ -99,18 +99,17 @@ on:
 jobs:
   build:
     name: Build, Analyze and Cache
-    runs-on: self-hosted  # Use the self-hosted runner
+    runs-on: ubuntu-latest  # Using GitHub-hosted runner for testing
 
     steps:
-      # Checkout the code
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Fetch the full history for SonarQube analysis
+          fetch-depth: 0
 
       # Set executable permissions for gradlew (if on Linux/macOS)
       - name: Set executable permissions for gradlew
-        if: runner.os != 'Windows'  # Skip on Windows, as it's not needed
+        if: runner.os != 'Windows'  # Skip on Windows
         run: chmod +x ./gradlew
 
       # Set up JDK 17
@@ -118,17 +117,17 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: 17
-          distribution: 'zulu'  # Alternative distributions available
+          distribution: 'zulu'
 
-      # Cache SonarQube dependencies to avoid downloading each time
+      # Cache SonarQube dependencies
       - name: Cache SonarQube packages
         uses: actions/cache@v4
         with:
           path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar-${{ hashFiles('**/*.java') }}  # Cache based on source code changes
+          key: ${{ runner.os }}-sonar-${{ hashFiles('**/*.java') }}
           restore-keys: ${{ runner.os }}-sonar-
 
-      # Cache Gradle dependencies to speed up builds
+      # Cache Gradle dependencies
       - name: Cache Gradle dependencies
         uses: actions/cache@v4
         with:
@@ -136,7 +135,6 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: ${{ runner.os }}-gradle-
 
-      # Build and analyze the project using Gradle and SonarQube
+      # Build and analyze the project
       - name: Build and analyze with Gradle
         run: ./gradlew build sonarqube -Dsonar.login=${{ secrets.SONAR_TOKEN }} --info
-        # Make sure to use your SonarQube token in secrets to authenticate
