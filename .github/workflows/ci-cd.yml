@@ -146,4 +146,3 @@ jobs:
           ./gradlew sonar -Dsonar.projectKey="Cuisine-Craft_Cuisine-Craft-Authentication-Authorization-Service" \
                            -Dsonar.host.url="${{ secrets.SONAR_HOST_URL }}" \
                            -Dsonar.login="${{ secrets.SONAR_TOKEN }}"
-

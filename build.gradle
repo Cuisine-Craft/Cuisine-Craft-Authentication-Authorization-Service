@@ -62,20 +62,15 @@ jacocoTestReport {
         html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
     }
 }
-sonar {
+sonarqube {
     properties {
-        // Project Key for SonarCloud or SonarQube
         property "sonar.projectKey", "Cuisine-Craft_Cuisine-Craft-Authentication-Authorization-Service"
-
-        // Project Name, displayed in SonarCloud/SonarQube UI
         property "sonar.projectName", "Cuisine-Craft-Authentication-Authorization-Service"
-
-        // Wait for Quality Gate to pass before finishing the build (set to 'false' to allow build success even with failed quality gate)
-        property "sonar.qualitygate.wait", "false"
-
-        // Path to the source code for analysis
-        property "sonar.sources", "src/main/java/cuisinecraft/authservice/business"
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.login", "99d4ae327277d58668478cbc465e0f8433434ea2"  // Replace with your SonarCloud token
+        property "sonar.sources", "src/main/java/cuisinecraft/authservice"
     }
 }
+
 
 
