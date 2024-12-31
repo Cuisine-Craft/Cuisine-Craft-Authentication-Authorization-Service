@@ -64,12 +64,18 @@ jacocoTestReport {
 }
 sonar {
     properties {
-        property "sonar.projectKey", "Cuisine-Craft_Cuisine-Craft-Authentication-Authorization-Service_8f212176-f64e-4011-9f3e-0bf70756d09d"
+        // Project Key for SonarCloud or SonarQube
+        property "sonar.projectKey", "Cuisine-Craft_Cuisine-Craft-Authentication-Authorization-Service"
+
+        // Project Name, displayed in SonarCloud/SonarQube UI
         property "sonar.projectName", "Cuisine-Craft-Authentication-Authorization-Service"
-        property "sonar.qualitygate.wait", false
+
+        // Wait for Quality Gate to pass before finishing the build (set to 'false' to allow build success even with failed quality gate)
+        property "sonar.qualitygate.wait", "false"
+
+        // Path to the source code for analysis
         property "sonar.sources", "src/main/java/cuisinecraft/authservice/business"
-        property "sonar.host.url", "http://localhost:9000"
-        property "sonar.token", "sqp_b68e8713cd9148cd921473ee77b082670488b8a7"
     }
 }
+
 
