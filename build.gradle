@@ -67,7 +67,7 @@ sonarqube {
         property "sonar.projectKey", "Cuisine-Craft_Cuisine-Craft-Authentication-Authorization-Service"
         property "sonar.projectName", "Cuisine-Craft-Authentication-Authorization-Service"
         property "sonar.organization", "cuisine-craft"
-        property "sonar.sources", "src/main/java/cuisinecraft/authservice"
+        property "sonar.sources", "src/main/java/cuisinecraft/authservice/business"
         property "sonar.qualitygate.wait", false
     }
 }
