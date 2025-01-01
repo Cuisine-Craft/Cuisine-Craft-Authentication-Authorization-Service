@@ -67,8 +67,6 @@ sonarqube {
         property "sonar.projectKey", "Cuisine-Craft_Cuisine-Craft-Authentication-Authorization-Service"
         property "sonar.projectName", "Cuisine-Craft-Authentication-Authorization-Service"
         property "sonar.organization", "cuisine-craft"
-        property "sonar.host.url", "https://sonarcloud.io"
-        property "sonar.token", "99d4ae327277d58668478cbc465e0f8433434ea2"  // Replace with your SonarCloud token
         property "sonar.sources", "src/main/java/cuisinecraft/authservice"
         property "sonar.qualitygate.wait", false
     }
