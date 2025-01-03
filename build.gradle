@@ -4,6 +4,7 @@ plugins {
     id 'java'
     id "org.sonarqube" version "6.0.1.5171"
     id 'jacoco'
+    id "org.owasp.dependencycheck" version "8.0.0"  // OWASP Dependency-Check plugin
 }
 
 group = 'cuisinecraft'
@@ -92,5 +93,12 @@ sonarqube {
         property "sonar.sources", "src/main/java/cuisinecraft/authservice/business"
         property "sonar.qualitygate.wait", false
     }
+}
+
+// OWASP Dependency-Check configuration
+dependencyCheck {
+    format = 'HTML'  // Report format
+    outputDirectory = "$buildDir/reports/dependency-check"
+    failBuildOnCVSS = 7  // Optional: Fail build on high severity vulnerabilities
 }
 

@@ -37,6 +37,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      - name: Cache Gradle build outputs
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/buildOutput
+          key: ${{ runner.os }}-gradle-build-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-build-
+
   owasp-dependency-check:
     needs: build
     runs-on: ubuntu-latest
@@ -139,3 +147,17 @@ jobs:
         with:
           name: owasp-zap-scan-results
           path: /zap/wrk/*.html
+
+  notify:
+    needs: [build, owasp-dependency-check, test, scan, owasp-zap]
+    runs-on: ubuntu-latest
+    if: failure()
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Send Slack notification on failure
+        uses: 8398a7/action-slack@v3
+        with:
+          status: failure
+          webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
