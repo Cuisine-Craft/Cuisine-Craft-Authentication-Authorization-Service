@@ -213,33 +213,29 @@ jobs:
   owasp-zap:
     needs: test
     runs-on: ubuntu-latest
-    services:
-      zaproxy:
-        image: ghcr.io/zaproxy/zaproxy:stable  # Updated to the correct GitHub Container Registry image
-        options: --privileged --cap-add=NET_ADMIN
-        ports:
-          - 8080:8080
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Wait for ZAP to start
-        run: |
-          while ! curl -s http://localhost:8080; do
-            echo "Waiting for ZAP to start..."
-            sleep 5
-          done
+      - name: Start app
+        run: ./gradlew bootRun &  # Adjust this command based on how you start your application
 
-      - name: Start ZAP scan
-        run: |
-          curl -sSL https://raw.githubusercontent.com/zaproxy/zaproxy/master/docker/zap-init.sh | bash -s - -t start-scan
+      - name: Sleep for 30 seconds
+        run: sleep 30  # Wait for the application to start
 
-      - name: Upload OWASP ZAP scan results
+      - name: ZAP Scan
+        uses: zaproxy/action-baseline@v0.10.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          target: 'http://localhost:8080'  # Adjust this URL to match your application's address
+          rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-a'
+
+      - name: Upload ZAP Report
         uses: actions/upload-artifact@v3
         with:
-          name: owasp-zap-scan-results
-          path: /zap/wrk/*.html
+          name: zap-scan-report
+          path: report.html
 #
 #  notify:
 #    needs: [build, owasp-dependency-check, test, scan, owasp-zap]
