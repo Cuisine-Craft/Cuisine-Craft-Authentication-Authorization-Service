@@ -4,14 +4,11 @@ plugins {
     id 'java'
     id "org.sonarqube" version "6.0.1.5171"
     id 'jacoco'
-//
 }
-//apply plugin: "org.sonarqube"
 
 group = 'cuisinecraft'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
-
 
 configurations {
     compileOnly {
@@ -23,45 +20,70 @@ repositories {
     mavenCentral()
 }
 
-
-
-
-
 dependencies {
+    // Spring Boot dependencies
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+    // Database and migrations
     implementation 'org.flywaydb:flyway-core'
     implementation 'org.flywaydb:flyway-mysql'
     implementation 'mysql:mysql-connector-java:8.0.33'
+    implementation 'com.h2database:h2'  // In-memory DB for tests
+
+    // OpenAPI
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
-    implementation 'com.h2database:h2'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // JWT
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // Lombok (for generating boilerplate code)
+    implementation 'org.projectlombok:lombok:1.18.28'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:4.0.4'
-    testImplementation 'com.playtika.testcontainers:embedded-mysql:3.0.0-RC9'
-    testImplementation 'org.springframework.security:spring-security-test'
 
+    // Dev tools (Optional)
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // Test dependencies
+    testImplementation "org.testcontainers:junit-jupiter:1.20.4"
+    // Check for the latest version
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // Replace with the latest version of Testcontainers
+
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'  // Spring Boot test starter
+    testImplementation 'com.fasterxml.jackson.core:jackson-databind'       // For JSON parsing in tests
+    testImplementation 'org.mockito:mockito-core'  // Mocking library for unit tests
+    testImplementation 'org.springframework.security:spring-security-test' // Security tests
+
+    // Testcontainers for testing with MySQL
+    testImplementation 'com.playtika.testcontainers:embedded-mysql:3.0.0-RC9'
+
+    // Test utilities for integration testing
+    testImplementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:4.0.4'
 }
 
 test {
-    useJUnitPlatform()
-    finalizedBy jacocoTestReport
+    useJUnitPlatform()  // Required for JUnit 5
+    finalizedBy jacocoTestReport  // Generates code coverage reports
 }
+
 jacocoTestReport {
     reports {
         xml.required = true
         html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
     }
 }
+
 sonarqube {
     properties {
         property "sonar.projectKey", "Cuisine-Craft_Cuisine-Craft-Authentication-Authorization-Service"
@@ -71,6 +93,4 @@ sonarqube {
         property "sonar.qualitygate.wait", false
     }
 }
-
-
 
