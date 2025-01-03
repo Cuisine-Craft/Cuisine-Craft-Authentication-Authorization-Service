@@ -215,7 +215,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       zaproxy:
-        image: owasp/zap2docker-stable  # Changed from owasp/zap to the correct image
+        image: ghcr.io/zaproxy/zaproxy:stable  # Updated to the correct GitHub Container Registry image
         options: --privileged --cap-add=NET_ADMIN
         ports:
           - 8080:8080
