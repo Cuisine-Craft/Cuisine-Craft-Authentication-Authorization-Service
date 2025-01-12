@@ -309,11 +309,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set file permissions
+        run: chmod -R 777 /zap/wrk/
+
       - name: Start app
         run: ./gradlew bootRun &  # Adjust this command based on how you start your application
 
-      - name: Sleep for 30 seconds
-        run: sleep 30  # Wait for the application to start
+      - name: Wait for application to be ready
+        run: |
+          while ! nc -z localhost 8080; do
+            sleep 5
+          done
+
+      - name: Check if rules file exists
+        run: |
+          if [ ! -f .zap/rules.tsv ]; then
+            echo "Rules file not found!"
+            exit 1
+          fi
 
       - name: ZAP Scan
         uses: zaproxy/action-baseline@v0.10.0
@@ -327,4 +340,8 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: zap-scan-report
-          path: report.html
+          path: |
+            report.html
+            report_json.json
+            report_md.md
+

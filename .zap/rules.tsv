@@ -1,0 +1,4 @@
+10016	IGNORE	(Web Browser XSS Protection Not Enabled)
+10020	IGNORE	(X-Frame-Options Header Not Set)
+10021	IGNORE	(X-Content-Type-Options Header Missing)
+10038	IGNORE	(Content Security Policy (CSP) Header Not Set)
