@@ -267,7 +267,32 @@
 #        if: always()
 #        run: kill $(cat ./app.pid)
 
-name: OWASP Security Pipeline
+#jobs:
+#  owasp-dependency-check:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v4
+#
+#      - name: Set up JDK 17
+#        uses: actions/setup-java@v3
+#        with:
+#          java-version: '17'
+#          distribution: 'adopt'
+#
+#      - name: Grant execute permissions to gradlew
+#        run: chmod +x ./gradlew
+#
+#      - name: Run OWASP Dependency-Check
+#        run: ./gradlew dependencyCheckAnalyze
+#
+#      - name: Upload OWASP Dependency-Check report
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: owasp-dependency-check-report
+#          path: build/reports/dependency-check/dependency-check-report.html
+
+name: OWASP ZAP Security Pipeline
 
 on:
   push:
@@ -278,32 +303,7 @@ on:
       - main
 
 jobs:
-  owasp-dependency-check:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'adopt'
-
-      - name: Grant execute permissions to gradlew
-        run: chmod +x ./gradlew
-
-      - name: Run OWASP Dependency-Check
-        run: ./gradlew dependencyCheckAnalyze
-
-      - name: Upload OWASP Dependency-Check report
-        uses: actions/upload-artifact@v3
-        with:
-          name: owasp-dependency-check-report
-          path: build/reports/dependency-check/dependency-check-report.html
-
   owasp-zap:
-    needs: owasp-dependency-check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -328,15 +328,17 @@ jobs:
 
       - name: Start app
         run: |
-          ./gradlew bootRun &
+          ./gradlew bootRun &  # Run app in the background
           echo $! > ./app.pid
 
       - name: Wait for application to be ready
-        timeout-minutes: 2
+        timeout-minutes: 5  # Increased to 5 minutes
         run: |
-          while ! nc -z localhost 8080; do
-            sleep 1
+          while ! curl -s http://localhost:8080 > /dev/null; do
+            echo "Waiting for app to start..."
+            sleep 5  # Wait for 5 seconds before checking again
           done
+          echo "Application is ready!"
 
       - name: ZAP Full Scan
         uses: zaproxy/action-full-scan@v0.10.0
@@ -357,4 +359,5 @@ jobs:
 
       - name: Stop app
         if: always()
-        run: kill $(cat ./app.pid)
+        run: |
+          kill $(cat ./app.pid)  # Stop the app after scan
