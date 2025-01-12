@@ -218,24 +218,28 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Start app
-        run: ./gradlew bootRun &  # Adjust this command based on how you start your application
+        run: ./gradlew bootRun &  # Start your application in the background
 
       - name: Sleep for 30 seconds
-        run: sleep 30  # Wait for the application to start
+        run: sleep 30  # Wait for the application to fully start
 
-      - name: ZAP Scan
-        uses: zaproxy/action-baseline@v0.10.0
+      - name: ZAP Full Scan
+        uses: zaproxy/action-full-scan@v0.10.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          target: 'http://localhost:8080'  # Adjust this URL to match your application's address
+          target: 'http://localhost:8080'  # Adjust to match your application's address
           rules_file_name: '.zap/rules.tsv'
-          cmd_options: '-a'
+          cmd_options: '-a -t 1 -m 1'  # Active scan with thresholds for high/medium alerts
 
-      - name: Upload ZAP Report
+      - name: Upload ZAP Full Scan Report
         uses: actions/upload-artifact@v3
         with:
-          name: zap-scan-report
+          name: zap-full-scan-report
           path: report.html
+
+      - name: Stop app
+        run: pkill -f 'bootRun'
+
 #
 #  notify:
 #    needs: [build, owasp-dependency-check, test, scan, owasp-zap]
