@@ -303,17 +303,20 @@ on:
       - main
 
 jobs:
-  owasp-zap:
+  zap_scan:
     runs-on: ubuntu-latest
+    name: Scan ZAP website
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4  # Ensure to use the latest version for checking out the code
 
-      - name: Set file permissions
-        run: chmod -R 777 /zap/wrk/
+      # Optional: Set permissions for .zap directory (if required)
+      - name: Set permissions for .zap directory
+        run: chmod -R 777 .zap/
 
-      - name: Start app
-        run: ./gradlew bootRun &  # Adjust this command based on how you start your application
+      # Optional: Start your web application (if scanning locally)
+      - name: Start application
+        run: ./gradlew bootRun &  # Adjust the command based on your application setup
 
       - name: Wait for application to be ready
         run: |
@@ -321,20 +324,13 @@ jobs:
             sleep 5
           done
 
-      - name: Check if rules file exists
-        run: |
-          if [ ! -f .zap/rules.tsv ]; then
-            echo "Rules file not found!"
-            exit 1
-          fi
-
       - name: ZAP Scan
-        uses: zaproxy/action-baseline@v0.10.0
+        uses: zaproxy/action-baseline@v0.10.0  # Use the latest available version
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          target: 'http://localhost:8080'  # Adjust this URL to match your application's address
-          rules_file_name: '.zap/rules.tsv'
-          cmd_options: '-a'
+          target: 'http://localhost:8080'  # Replace with your locally running web app URL
+          rules_file_name: '.zap/rules.tsv'  # Path to your rules file
+          cmd_options: '-a'  # Optional additional options (e.g., alpha passive scan rules)
 
       - name: Upload ZAP Report
         uses: actions/upload-artifact@v3
@@ -344,4 +340,3 @@ jobs:
             report.html
             report_json.json
             report_md.md
-
